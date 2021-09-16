@@ -9,7 +9,7 @@
 <body class="body">
   <div class="page">
     <header class="header page__section">
-      <img class="header__logo" src="./images/header-logo.svg" alt="Логотип сайта Место">
+      <a class="header__logo" href="#" target="_blank"></a>
     </header>
     <main class="content">
       <section class="profile page__section">
@@ -17,72 +17,72 @@
           <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="Фотография профиля">
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <button class="profile__edit-btn"></button>
+            <button class="profile__edit-btn" aria-label="Редактировать имя и профессиию"></button>
             <p class="profile__subtitle">Исследователь океана</p>
           </div>
         </div>
-        <button class="profile__add-btn"></button>
+        <button class="profile__add-btn" aria-label="Добавить карточку"></button>
       </section>
       <section class="cards page__section">
-        <div class="card">
+        <article class="card">
           <img class="card__image" src="./images/element-nizhniy.jpg" alt="Нижний Новгород">
           <div class="card__content">
             <h2 class="card__title">Нижний Новгород</h2>
-            <button class="card__like"></button>
+            <button class="card__like" aria-label="Нравится"></button>
           </div>  
-        </div>
-        <div class="card">
+        </article>
+        <article class="card">
           <img class="card__image" src="./images/element-perm.jpg" alt="Пермь">
           <div class="card__content">
             <h2 class="card__title">Пермь</h2>
-            <button class="card__like"></button>
+            <button class="card__like" aria-label="Нравится"></button>
           </div>  
-        </div>
-        <div class="card">
+        </article>
+        <article class="card">
           <img class="card__image" src="./images/element-moscow.jpg" alt="Москва">
           <div class="card__content">
             <h2 class="card__title">Москва</h2>
-            <button class="card__like"></button>
+            <button class="card__like" aria-label="Нравится"></button>
           </div>
-        </div>
-        <div class="card">
+        </article>
+        <article class="card">
           <img class="card__image" src="./images/element-dombay.jpg" alt="Домбай">
           <div class="card__content">
             <h2 class="card__title">Домбай</h2>
-            <button class="card__like"></button>
+            <button class="card__like" aria-label="Нравится"></button>
           </div>
-        </div>
-        <div class="card">
+        </article>
+        <article class="card">
           <img class="card__image" src="./images/element-elbrus.jpg" alt="Эльбрус">
           <div class="card__content">
             <h2 class="card__title">Эльбрус</h2>
-            <button class="card__like"></button>
+            <button class="card__like" aria-label="Нравится"></button>
           </div>  
-        </div>
-        <div class="card">
+        </article>
+        <article class="card">
           <img class="card__image" src="./images/element-karachaevsk.jpg" alt="Карачаево-Черкесия">
           <div class="card__content">
             <h2 class="card__title">Карачаевск</h2>
-            <button class="card__like"></button>
+            <button class="card__like" aria-label="Нравится"></button>
           </div>
-        </div>
+        </article>
 
       </section>
     </main>
     <footer class="footer page__section">
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
-    <section class="popup">
+    <article class="popup">
       <div class="popup__conteiner">
-        <button class="popup__close"></button>
+        <button class="popup__close" aria-label="Закрыть окно редактирования"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form">
-          <input class="popup__input popup__input_type_name" type="text" value="" placeholder="Имя">
-          <input class="popup__input popup__input_type_rob" type="text" value="" placeholder="Профессия">
+        <form class="popup__form" name="form">
+          <input class="popup__input popup__input_type_name" type="text" placeholder="Имя" name="name">
+          <input class="popup__input popup__input_type_rob" type="text" placeholder="Профессия" name="job">
           <button class="popup__submit" type="submit">Сохранить</button>
         </form>
       </div>
-    </section>
+    </article>
   </div>
   <script src="./scripts/script.js"></script>
 </body>
