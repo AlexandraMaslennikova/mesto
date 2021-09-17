@@ -17,8 +17,6 @@ function closePopup() {
 }
 
 popupCloseBtn.addEventListener('click', closePopup);
-popupSubmitBtn.addEventListener('click', closePopup);
-
 
 let formElement = document.querySelector('.popup');
 let nameInput = popup.querySelector('.popup__input_type_name');
@@ -30,7 +28,7 @@ function imputText() {
     nameInput.value = name.textContent;
     jobInput.value = job.textContent;
 
-    openPopup()
+    openPopup();
 }
 
 popupOpenBtn.addEventListener('click', imputText);
@@ -43,6 +41,7 @@ function formSubmitHandler (evt) {
     name.textContent = nameInput.value;
     job.textContent = jobInput.value;
 
+    closePopup();
 }
 
 formElement.addEventListener('submit', formSubmitHandler); 
