@@ -7,9 +7,9 @@ const imagePopup = document.querySelector('.popup_type_image'); //окно пр�
 const popupOpenBtn = document.querySelector('.profile__edit-btn'); //кнопка редактирования профиля
 const addCardBtn = document.querySelector('.profile__add-btn'); //кнопка открытия окна добавления карточки
 
-const popupCloseEdit = popup.querySelector('.close_type_edit'); //кнопка закрытия попапа редактирования
-const popupCloseCard = document.querySelector('.close_type_card'); //кнопка закрытия попапа добавления карточки
-const popupCloseImage = document.querySelector('.close_type_image'); //кнопка закрытия попапа просмотра картинки
+const popupCloseEdit = popup.querySelector('.popup__close_type_edit'); //кнопка закрытия попапа редактирования
+const popupCloseCard = document.querySelector('.popup__close_type_card'); //кнопка закрытия попапа добавления карточки
+const popupCloseImage = document.querySelector('.popup__close_type_image'); //кнопка закрытия попапа просмотра картинки
 
 const name = document.querySelector('.profile__title'); //поле имени профиля
 const job = document.querySelector('.profile__subtitle'); //поле профессии
@@ -102,8 +102,8 @@ const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
     },
     {
-      name: 'Пермь',
-      link: 'https://images.unsplash.com/photo-1625418972282-717fb2324e17?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=873&q=80'
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
     },
     {
       name: 'Иваново',
