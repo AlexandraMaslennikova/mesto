@@ -10,7 +10,6 @@
     border: none;
     border-radius: 2px;
     cursor: pointer;
-    transition: 0.8s ease;
 }
 
 .popup__submit:hover {
