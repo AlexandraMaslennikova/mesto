@@ -39,7 +39,8 @@ const popupCloseImage = document.querySelector('.popup__close_type_image'); //к
 const name = document.querySelector('.profile__title'); //поле имени профиля
 const job = document.querySelector('.profile__subtitle'); //поле профессии
 
-const popupSubmitBtn = editPopup.querySelector('.popup__submit'); //кнопка сохранения
+const popupSubmitBtn = editPopup.querySelector('.popup__submit'); //кнопка сохранения в окне редактирования
+const addCardSubmitBtn = newCardPopup.querySelector('.popup__submit');
 
 
 const imagePopupTitle = imagePopup.querySelector('.popup__title');
@@ -78,6 +79,31 @@ popupCloseImage.addEventListener('click', () => {
   closePopup(imagePopup);
 });
 
+//закрытие popup кликом на 'Escape'
+function keyHandler(evt) {
+  if (evt.key === 'Escape') {
+    closePopup(editPopup);
+    closePopup(newCardPopup);
+    closePopup(imagePopup);
+  }
+}
+
+document.addEventListener('keydown', keyHandler);
+
+
+//закрытие popup кликом на оверлей
+function clickOverlay(event) {
+  if (event.target === event.currentTarget) {
+    closePopup(editPopup);
+    closePopup(newCardPopup);
+    closePopup(imagePopup);
+  }
+};
+
+editPopup.addEventListener('click', clickOverlay);
+newCardPopup.addEventListener('click', clickOverlay);
+imagePopup.addEventListener('click', clickOverlay);
+
 const formElementEditProfile = document.querySelector('.popup_type_edit-profile');
 
 //form data
@@ -115,6 +141,7 @@ function addCardSubmitHandler(evt) {
   closePopup(newCardPopup);
 
   evt.currentTarget.reset(); //очищает поля формы после добавления карточки
+  addCardSubmitBtn.setAttribute("disabled", "disabled"); //делаем кнопку снова не активной после добавления карточки
 }
 
 formElementEditProfile.addEventListener('submit', submitProfileForm);
@@ -175,4 +202,3 @@ function handleImageClick (evt) {
   
   openPopup(imagePopup);
 };
-
