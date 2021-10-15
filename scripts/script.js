@@ -25,16 +25,14 @@ const initialCards = [
   }
 ];
 
+const popups = document.querySelectorAll('.popup');
+
 const editPopup = document.querySelector('.popup_type_edit-profile'); //окно редактирования информации профиля
 const newCardPopup = document.querySelector('.popup_type_add-card'); //окно добавления карточки
 const imagePopup = document.querySelector('.popup_type_image'); //окно просмотра карточки
 
 const popupOpenBtn = document.querySelector('.profile__edit-btn'); //кнопка редактирования профиля
 const addCardBtn = document.querySelector('.profile__add-btn'); //кнопка открытия окна добавления карточки
-
-const popupCloseEdit = editPopup.querySelector('.popup__close_type_edit'); //кнопка закрытия попапа редактирования
-const popupCloseCard = document.querySelector('.popup__close_type_card'); //кнопка закрытия попапа добавления карточки
-const popupCloseImage = document.querySelector('.popup__close_type_image'); //кнопка закрытия попапа просмотра картинки
 
 const name = document.querySelector('.profile__title'); //поле имени профиля
 const job = document.querySelector('.profile__subtitle'); //поле профессии
@@ -51,7 +49,9 @@ const addCardForm = newCardPopup.querySelector('.popup__form');
 //функция открытия popup
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
-}
+
+  document.addEventListener('keydown', keyHandler); //добавляем слушатель при открытии попапа
+};
 
 popupOpenBtn.addEventListener('click', () => {
   openPopup(editPopup);
@@ -65,38 +65,33 @@ addCardBtn.addEventListener('click', () => {
 //функция закрытия popup
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
+
+  popup.removeEventListener('keydown', keyHandler); //удаляем слушатель при зактырии попапа
 };
 
-popupCloseEdit.addEventListener('click', () => {
-  closePopup(editPopup);
-});
-
-popupCloseCard.addEventListener('click', () => {
-  closePopup(newCardPopup);
-});
-
-popupCloseImage.addEventListener('click', () => {
-  closePopup(imagePopup);
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+      closePopup(popup)
+    }
+    if (evt.target.classList.contains('popup__close')) {
+      closePopup(popup)
+    }
+  })
 });
 
 //закрытие popup кликом на 'Escape'
 function keyHandler(evt) {
+  const openedPopup = document.querySelector('.popup_opened');
   if (evt.key === 'Escape') {
-    closePopup(editPopup);
-    closePopup(newCardPopup);
-    closePopup(imagePopup);
+    closePopup(openedPopup);
   }
-}
-
-document.addEventListener('keydown', keyHandler);
-
+};
 
 //закрытие popup кликом на оверлей
-function clickOverlay(event) {
-  if (event.target === event.currentTarget) {
-    closePopup(editPopup);
-    closePopup(newCardPopup);
-    closePopup(imagePopup);
+function clickOverlay(evt) {
+  if (evt.target === evt.currentTarget) {
+    closePopup(evt.target);
   }
 };
 
@@ -118,7 +113,7 @@ function imputText() {
 
   nameInput.value = name.textContent;
   jobInput.value = job.textContent;
-}
+};
 
 // Обработчик «отправки» формы
 function submitProfileForm (evt) {
@@ -129,7 +124,7 @@ function submitProfileForm (evt) {
   job.textContent = jobInput.value;
 
   closePopup(editPopup);
-}
+};
 
 // Добавление карточeк
 function addCardSubmitHandler(evt) {
@@ -141,8 +136,7 @@ function addCardSubmitHandler(evt) {
   closePopup(newCardPopup);
 
   evt.currentTarget.reset(); //очищает поля формы после добавления карточки
-  addCardSubmitBtn.setAttribute("disabled", "disabled"); //делаем кнопку снова не активной после добавления карточки
-}
+};
 
 formElementEditProfile.addEventListener('submit', submitProfileForm);
 addCardForm.addEventListener('submit', addCardSubmitHandler);
@@ -179,6 +173,7 @@ function createCard(data) {
   
   cardTitle.textContent = data.name;
   cardImage.src = data.link;
+  cardImage.alt = data.name;
 
 //просмотр картинки
   cardImage.addEventListener('click', handleImageClick);
@@ -197,8 +192,9 @@ initialCards.forEach((data) => {
 //открытие попапа с картинкой
 function handleImageClick (evt) {
 
-  imagePopupImg.src = evt.target.getAttribute('src');
-  imagePopupTitle.textContent = evt.target.closest('.card').querySelector('.card__title').textContent;
+  imagePopupImg.src = evt.target.src
+  imagePopupImg.alt = evt.target.alt
+  imagePopupTitle.textContent = evt.target.alt
   
   openPopup(imagePopup);
 };

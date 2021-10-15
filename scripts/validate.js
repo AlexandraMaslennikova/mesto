@@ -10,13 +10,13 @@ const validationConfig = {
 const showError = (errorElement, inputElement, config) => {
     errorElement.textContent = inputElement.validationMessage;
     inputElement.classList.add(config.inputErrorClass);
-}
+};
 
 //функция скрывает ошибку
 const hideError = (errorElement, inputElement, config) => {
     errorElement.textContent = '';
     inputElement.classList.remove(config.inputErrorClass);
-}
+};
 
 //проверяет на валидность
 const checkInputValidity = (formElement, inputElement, config) => {
@@ -28,7 +28,7 @@ const checkInputValidity = (formElement, inputElement, config) => {
     } else {
         hideError(errorElement, inputElement, config);
     }
-}
+};
 
 const toggleButtonState = (button, isActive, config) => {
     if (isActive) {
@@ -38,7 +38,7 @@ const toggleButtonState = (button, isActive, config) => {
         button.classList.add(config.inactiveButtonClass);
         button.disabled = 'disabled';
     }
-}
+};
 
 //добавляет слушатели
 const setEventListeners = (formElement, config) => {
@@ -57,14 +57,15 @@ const setEventListeners = (formElement, config) => {
 
     formElement.addEventListener('submit', (evt) => {
             evt.preventDefault();
+            toggleButtonState(addCardSubmitBtn, false, config);
         })
-}
+};
 
 const enableValidation = (config) => {
     const forms = document.querySelectorAll(config.formSelector);
     Array.from(forms).forEach(formElement => {
         setEventListeners(formElement, config);
     })
-}
+};
 
 enableValidation(validationConfig);
