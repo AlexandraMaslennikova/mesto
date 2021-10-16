@@ -66,7 +66,7 @@ addCardBtn.addEventListener('click', () => {
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
 
-  popup.removeEventListener('keydown', keyHandler); //удаляем слушатель при зактырии попапа
+  document.removeEventListener('keydown', keyHandler); //удаляем слушатель при зактырии попапа
 };
 
 popups.forEach((popup) => {
@@ -82,8 +82,8 @@ popups.forEach((popup) => {
 
 //закрытие popup кликом на 'Escape'
 function keyHandler(evt) {
-  const openedPopup = document.querySelector('.popup_opened');
   if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
     closePopup(openedPopup);
   }
 };
