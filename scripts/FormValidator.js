@@ -3,6 +3,7 @@ export class FormValidator {
         this._config = config;
         this._formElement = formElement;
         this._inputList = formElement.querySelectorAll(config.inputSelector);
+        this._submitButton = formElement.querySelector(config.submitButtonSelector);
     }
 
     //показываем ошибку
@@ -42,15 +43,13 @@ export class FormValidator {
 
     //устанавливаем слушателей
     _setEventListeners = (formElement, config) => {
-        const inputList = formElement.querySelectorAll(this._config.inputSelector);
-        const submitButton = formElement.querySelector(this._config.submitButtonSelector);
         const addCardSubmitBtn = document.querySelector('.popup__submit');
     
         Array.from(this._inputList).forEach(inputElement => {
             inputElement.addEventListener('input', () => {
                 const isFormValid = formElement.checkValidity(); //проверяем значение на сoответствие ограничениям
                 this._checkInputValidity(formElement, inputElement, config);
-                this._toggleButtonState(submitButton, isFormValid, config);
+                this._toggleButtonState(this._submitButton, isFormValid, config);
             })
         })
     
@@ -61,17 +60,15 @@ export class FormValidator {
     };
 
 
-    //дезактивируем кнопку (для функции открытия попапа)
+    //дезактивируем кнопку
     disabledButton () {
-        const submitButton = this._formElement.querySelector(this._config.submitButtonSelector);
-        submitButton.classList.add(this._config.inactiveButtonClass)
-        submitButton.disabled = true;
+        this._submitButton.classList.add(this._config.inactiveButtonClass)
+        this._submitButton.disabled = true;
       }
 
       
     enableValidation = () => {
-        const forms = this._formElement;
-        this._setEventListeners(forms, this._config);
+        this._setEventListeners(this._formElement, this._config);
     };
 
 }
