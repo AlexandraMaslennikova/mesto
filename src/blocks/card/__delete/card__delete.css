@@ -2,7 +2,7 @@
     position: absolute;
     width: 19px;
     height: 19px;
-    background-image: url(../../../images/delete.svg);
+    background-image: url('../../../images/delete.svg');
     top: 15px;
     right: 10px;
     background-color: transparent;

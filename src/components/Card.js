@@ -1,14 +1,9 @@
-import { openPopup } from './utils.js';
-
-const imagePopup = document.querySelector('.popup_type_image'); //окно просмотра карточки
-const imagePopupImg = imagePopup.querySelector('.popup__image'); //изображение карточки
-const imagePopupTitle = imagePopup.querySelector('.popup__title'); //название карточки
-
 export class Card {
-  constructor(data, cardSelector) {
-    this._name = data.name;
-    this._link = data.link;
+  constructor( { link, name }, cardSelector, handleCardClick) {
+    this._link = link;
+    this._name = name;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
   
   _getTemplate() {
@@ -21,7 +16,7 @@ export class Card {
     return cardElement;
   }
 
-  createCard(data) {
+  createCard() { 
     this._element = this._getTemplate();
     this._element.querySelector('.card__title').textContent = this._name;
     this._likeBtn = this._element.querySelector('.card__like');
@@ -42,7 +37,7 @@ export class Card {
 
   _deleteCard() {
     this._element.remove();
-    this._element.innerHTML = null;
+    this._element = null;
   }
 
   _setEventListeners() {
@@ -54,17 +49,8 @@ export class Card {
       this._deleteCard();
     });
 
-    this._element.querySelector('.card__image').addEventListener('click', () => {
-      this._handleImageClick(this._name, this._link);
-      });
-  }
-
-  _handleImageClick() {
-  
-    imagePopupImg.src = this._link;
-    imagePopupImg.alt = this._name;
-    imagePopupTitle.textContent = this._name;
-    
-    openPopup(imagePopup);
+    this._element.querySelector('.card__image').addEventListener('click', () => { 
+      this._handleCardClick({ link: this._link, name: this._name });
+    });
   }
 }

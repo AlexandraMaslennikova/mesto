@@ -1,5 +1,5 @@
 //функция открытия popup
-export const openPopup = (popup) => {
+/*export const openPopup = (popup) => {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', keyHandler); //добавляем слушатель при открытии попапа
 };
@@ -23,4 +23,4 @@ export function clickOverlay(evt) {
     if (evt.target === evt.currentTarget) {
       closePopup(evt.target);
     }
-};
+};*/

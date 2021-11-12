@@ -35,12 +35,11 @@ export class FormValidator {
         if (isActive) {
             button.classList.remove(this._config.inactiveButtonClass);
             button.disabled = false;
-        } else {
+        } else { //включаем кнопку
             button.classList.add(this._config.inactiveButtonClass);
             button.disabled = 'disabled';
         }
     };
-
     //устанавливаем слушателей
     _setEventListeners = (formElement, config) => {
         const addCardSubmitBtn = document.querySelector('.popup__submit');
