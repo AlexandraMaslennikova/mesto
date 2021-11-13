@@ -1,35 +1,29 @@
-//import '../pages/index.css'; раскоментировать, когда буду билдить
+import '../pages/index.css';
 
 import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
-import { initialCards } from '../scripts/initialCards.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Card } from '../components/Card.js';
 
-
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_disabled',
-  inputErrorClass: 'popup__input_type_error',
-}; 
-const nameEditProfile = document.querySelector('.profile__title'); //поле имени профиля
-const jobEditProfile = document.querySelector('.profile__subtitle'); //поле профессии
-const addNewCardPopup = document.querySelector('.popup_type_add-card');
-const addCardForm = addNewCardPopup.querySelector('.popup__form');
-const placeInput = addCardForm.querySelector('.popup__input_type_place');
-const linkInput = addCardForm.querySelector('.popup__input_type_link');
-const editPopup = document.querySelector('.popup_type_edit-profile');
-const nameInput = editPopup.querySelector('.popup__input_type_name');
-const jobInput = editPopup.querySelector('.popup__input_type_job');
-const cardList = document.querySelector('.cards'); //карточки 
-const popupOpenBtn = document.querySelector('.profile__edit-btn'); //кнопка редактирования профиля
-const addCardBtn = document.querySelector('.profile__add-btn'); //кнопка открытия окна добавления карточки
-const editProfileForm = editPopup.querySelector('.popup__form');
-
+import { 
+  initialCards,
+  validationConfig,
+  nameEditProfile,
+  jobEditProfile,
+  addNewCardPopup,
+  addCardForm,
+  placeInput,
+  linkInput,
+  editPopup,
+  nameInput,
+  jobInput,
+  cardList,
+  popupOpenBtn,
+  addCardBtn,
+  editProfileForm
+} from '../utils/constants.js';
 
 
 const handleUserInfoFormSabmit = (data) => {
@@ -37,14 +31,13 @@ const handleUserInfoFormSabmit = (data) => {
 }
 
 
-const handleCardClick = ({ link, name }) => {
-  imagePopup.open({ link, name });
+const handleCardClick = ({name,link}) => {
+  imagePopup.open(name, link);
 };
 
 
 const createNewCard = (data) => {
   const card = new Card(data, '.card', handleCardClick);
-
   return card;
 }
 
@@ -99,7 +92,7 @@ const newCardList = new Section({
 //добавление новой карточки
 function addCardSubmitHandler(evt) {
     evt.preventDefault(); 
-    const card = generateCard({name: placeInput.value, link: linkInput.value}, '.card-template');
+    const card = generateCard({name: placeInput.value, link: linkInput.value}, '.card-template', handleCardClick);
     render(card);
 
     newCardPopup.close();
@@ -122,7 +115,7 @@ const render = (data) => {
 }
 
 initialCards.forEach((data) => {
-    const card = generateCard(data, '.card-template');
+    const card = generateCard(data, '.card-template', handleCardClick);
     render(card);
 });
 
