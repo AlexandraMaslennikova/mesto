@@ -1,32 +1,35 @@
 import { Popup } from './Popup.js';
 
 export class PopupWithForm extends Popup {
-    constructor(popupSelector, handleFormSabmit) {
+    constructor(popupSelector, handleCardFormSabmit) {
         super(popupSelector);
+        this._popupElement = document.querySelector(popupSelector);
         this._popupFormElement = this._popupElement.querySelector('.popup__form');
-        this._handleFormSabmit = handleFormSabmit;
-    }
-
-    close() {
-        this._popupFormElement.reset(); //сбрасываем поля формы
-        super.close(); //вызываем родительский метод
-    }
-
-    setEventListener() {
-        this._popupFormElement.addEventListener('submit', (event) =>{
-            this._handleFormSabmit(this._getInputValues());
-            this.close();
-        })
-
-        super.setEventListeners();
-    }
+        this._handleCardFormSabmit = handleCardFormSabmit;
+        this._clickFormSubmit = this._submitClick.bind(this);
+    };
 
     //собираем данные полей формы 
     _getInputValues() {
         const formValues = {};
         const inputList = Array.from(this._popupFormElement.querySelectorAll('.popup__input'));
-        inputList.forEach(inputElement => formValues[input.name] = inputValues); //берет name из тега
-
+        inputList.forEach(input => formValues[input.name] = input.value);
         return formValues;
-    }
+    };
+    
+    _submitClick(event) {
+        event.preventDefault();
+        this._handleCardFormSabmit(this._getInputValues());
+        this.close();
+    };
+
+    close() {
+        this._popupFormElement.reset(); //сбрасываем поля формы
+        super.close(); //вызываем родительский метод
+    };
+
+    setEventListeners() {
+        super.setEventListeners();
+        this._popupFormElement.addEventListener('submit', this._clickFormSubmit);
+    };
 }

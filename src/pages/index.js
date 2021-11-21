@@ -12,37 +12,27 @@ import {
   validationConfig,
   nameEditProfile,
   jobEditProfile,
-  addNewCardPopup,
   addCardForm,
   placeInput,
   linkInput,
   editPopup,
   nameInput,
   jobInput,
-  cardList,
   popupOpenBtn,
   addCardBtn,
   editProfileForm
 } from '../utils/constants.js';
 
-
-const handleUserInfoFormSabmit = (data) => {
-  UserInfo.setUserInfo(data);
-}
-
+const handleUserInfoFormSabmit = (inputValues) => {
+  userInfo.setUserInfo(inputValues);
+};
 
 const handleCardClick = ({name,link}) => {
   imagePopup.open(name, link);
 };
 
-
-const createNewCard = (data) => {
-  const card = new Card(data, '.card', handleCardClick);
-  return card;
-}
-
-const handleCardFormSabmit = (data) => {
-  cardList.addItem(createNewCard(data))
+const handleCardFormSabmit = (item) => {
+  list.addItem(generateCard(item))
 };
 
 const userInfo = new UserInfo(nameEditProfile, jobEditProfile);
@@ -50,16 +40,17 @@ const imagePopup = new PopupWithImage('.popup_type_image');
 const newCardPopup = new PopupWithForm('.popup_type_add-card', handleCardFormSabmit);
 const userInfoPopup = new PopupWithForm('.popup_type_edit-profile', handleUserInfoFormSabmit);
 
-editPopup.querySelector('.popup__form').addEventListener('submit', event => {
-  event.preventDefault();
 
-  userInfo.setUserInfo(nameInput.value, jobInput.value);
-  userInfo.updateUserInfo();
+//валидация
+const validationEditProfile = new FormValidator(validationConfig, editProfileForm);
+const validationNewCard = new FormValidator(validationConfig, addCardForm);
 
-  userInfoPopup.close();
-})
+const enableValidation = () => {
+    validationEditProfile.enableValidation();
+    validationNewCard.enableValidation();
+};
 
-userInfo.setUserInfo(nameEditProfile.textContent, jobEditProfile.textContent);
+enableValidation(validationConfig);
 
 imagePopup.setEventListeners();
 userInfoPopup.setEventListeners();
@@ -68,65 +59,48 @@ newCardPopup.setEventListeners();
   
 popupOpenBtn.addEventListener('click', () => {
   const getUserInfo = userInfo.getUserInfo();
+
   nameInput.value = getUserInfo.name;
   jobInput.value = getUserInfo.job;
 
   userInfoPopup.open();
-  });
-  
+});
+
+
+//открываем попап добавления новой карточки
 addCardBtn.addEventListener('click', () => {
     newCardPopup.open();
     validationNewCard.disabledButton(); //блокируем кнопку
 });
 
-const newCardList = new Section({
-  data: initialCards,
-  renderer: (item) => {
-    const card = new newCard(item, '.card-template');
+//создаем карточки
+const generateCard = (item) => {
+    const card = new Card({
+      data: item,
+      handleCardClick},
+      '.card-template');
     const cardElement = card.createCard();
-    newCardList.addItem(cardElement);
+    return cardElement;
+};
+
+//выводим карточки
+const list = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const element = generateCard(item);
+    list.addItem(element);
   }
-}, '.cards'); //проверить
-  
+}, '.cards'); 
 
-//добавление новой карточки
-function addCardSubmitHandler(evt) {
-    evt.preventDefault(); 
-    const card = generateCard({name: placeInput.value, link: linkInput.value}, '.card-template', handleCardClick);
-    render(card);
+list.renderItems();
 
-    newCardPopup.close();
-    evt.currentTarget.reset(); 
-  };
-
-//formElementEditProfile.addEventListener('submit', submitProfileForm);
-addCardForm.addEventListener('submit', addCardSubmitHandler);
-
-
-//создаем новые объекты карточек
-const generateCard = (data, cardSelector, handleCardClick) => {
-    const card = new Card(data, cardSelector, handleCardClick).createCard();
-    return card;
-}
-
-//отображаем карточки
-const render = (data) => {
-    cardList.prepend(data);
-}
-
-initialCards.forEach((data) => {
-    const card = generateCard(data, '.card-template', handleCardClick);
-    render(card);
+//добавляем новые карточки
+const cardItem = new PopupWithForm('.popup_type_add-card', () => {
+  const listItem = {
+  place : placeInput.value,
+  link : linkInput.value,
+  }
+  const addCard = generateCard(listItem);
+  list.addItem(addCard);
+  cardItem.close();
 });
-
-
-//создаем новые объекты для валидации
-const validationEditProfile = new FormValidator(validationConfig, editProfileForm);
-const validationNewCard = new FormValidator(validationConfig, addCardForm);
-
-const enableValidation = () => {
-    validationEditProfile.enableValidation();
-    validationNewCard.enableValidation();
-}
-
-enableValidation(validationConfig);

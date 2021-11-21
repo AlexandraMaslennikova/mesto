@@ -43,18 +43,17 @@ export class FormValidator {
         }
     };
     //устанавливаем слушателей
-    _setEventListeners = (formElement, config) => {
-        const addCardSubmitBtn = document.querySelector('.popup__submit');
-    
+    _setEventListeners = (config) => {
+ 
         Array.from(this._inputList).forEach(inputElement => {
             inputElement.addEventListener('input', () => {
-                const isFormValid = formElement.checkValidity(); //проверяем значение на сoответствие ограничениям
-                this._checkInputValidity(formElement, inputElement, config);
+                const isFormValid = this._formElement.checkValidity(); //проверяем значение на сoответствие ограничениям
+                this._checkInputValidity(this._formElement, inputElement, config);
                 this._toggleButtonState(this._submitButton, isFormValid, config);
             })
         })
     
-        formElement.addEventListener('submit', (evt) => {
+        this._formElement.addEventListener('submit', (evt) => {
                 evt.preventDefault();
                 //_toggleButtonState(addCardSubmitBtn, false, config);
             })
@@ -69,7 +68,7 @@ export class FormValidator {
 
       
     enableValidation = () => {
-        this._setEventListeners(this._formElement, this._config);
+        this._setEventListeners();
     };
 
 }
