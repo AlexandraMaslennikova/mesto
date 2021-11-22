@@ -13,8 +13,6 @@ import {
   nameEditProfile,
   jobEditProfile,
   addCardForm,
-  placeInput,
-  linkInput,
   editPopup,
   nameInput,
   jobInput,
@@ -27,8 +25,8 @@ const handleUserInfoFormSabmit = (inputValues) => {
   userInfo.setUserInfo(inputValues);
 };
 
-const handleCardClick = ({name,link}) => {
-  imagePopup.open(name, link);
+const handleCardClick = ({place,link}) => {
+  imagePopup.open(place, link);
 };
 
 const handleCardFormSabmit = (item) => {
@@ -93,14 +91,3 @@ const list = new Section({
 }, '.cards'); 
 
 list.renderItems();
-
-//добавляем новые карточки
-const cardItem = new PopupWithForm('.popup_type_add-card', () => {
-  const listItem = {
-  place : placeInput.value,
-  link : linkInput.value,
-  }
-  const addCard = generateCard(listItem);
-  list.addItem(addCard);
-  cardItem.close();
-});
