@@ -13,4 +13,4 @@
 * добавлена валидация форм.
 
 ### Технологический стек:
-HTML5, CSS3, ES6, Webpack
+HTML5, CSS3, ES6, Webpack, Babel, ООP, Grid layout, Media запросы.
