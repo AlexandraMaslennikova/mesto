@@ -13,11 +13,12 @@
     <main class="content">
       <section class="profile page__section">
         <div class="profile__item">
-          <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="Фотография профиля">
+          <button class="profile__avatar-btn"></button>
+          <img class="profile__avatar" src="#" alt="Фотография профиля">
           <div class="profile__info">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <h1 class="profile__title"></h1>
             <button class="profile__edit-btn" aria-label="Редактировать имя и профессиию"></button>
-            <p class="profile__subtitle">Исследователь океана</p>
+            <p class="profile__subtitle"></p>
           </div>
         </div>
         <button class="profile__add-btn" aria-label="Добавить карточку"></button>
@@ -27,7 +28,7 @@
       </section>
     </main>
     <footer class="footer page__section">
-      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+      <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
     </footer>
     <!--Попап "Редактирование профиля"-->
     <article class="popup popup_type_edit-profile">
@@ -47,14 +48,32 @@
           <span id="user-name-error" class="error"></span>
           <input 
           class="popup__input popup__input_type_job"
-          id="job"
+          id="about"
           type="text"
           placeholder="Профессия"
-          name="job"
+          name="about"
           minlength="2"
           maxlength="200"
           required>
-          <span id="job-error" class="error"></span>
+          <span id="about-error" class="error"></span>
+          <button class="popup__submit" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </article>
+    <!-- Попап изменения аватара --> 
+    <article class="popup popup_type_edit-avatar">
+      <div class="popup__conteiner">
+        <button class="popup__close popup__close_type_edit" aria-label="Закрыть окно редактирования"></button>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form class="popup__form" name="form" novalidate>
+          <input 
+          class="popup__input popup__input_type_avatar"
+          id="avatar"
+          type="url"
+          placeholder="Введите ссылку на аватар"
+          name="avatar"
+          required>
+          <span id="avatar-error" class="error"></span>
           <button class="popup__submit" type="submit">Сохранить</button>
         </form>
       </div>
@@ -67,14 +86,14 @@
         <form class="popup__form" name="placeForm" novalidate>
           <input
           class="popup__input popup__input_type_place"
-          id="place-name"
+          id="name"
           type="text"
           placeholder="Название"
-          name="place"
+          name="name"
           minlength="2"
           maxlength="30"
           required>
-          <span id="place-name-error" class="error"></span>
+          <span id="name-error" class="error"></span>
           <input
           class="popup__input popup__input_type_link"
           id="link"
@@ -87,6 +106,15 @@
         </form>
       </div>
     </article>
+        <!--Попап "Подтверждения удаления карточки"-->
+        <article class="popup popup_type_confirm">
+          <div class="popup__conteiner">
+            <button class="popup__close popup__close_type_confirm" aria-label="Закрыть окно"></button>
+            <h2 class="popup__title popup__title_type_confirm">Вы уверены?</h2>
+              <button class="popup__submit popup__submit_type_confirm" type="submit">Да</button>
+            </form>
+          </div>
+        </article>
     <!--Окно просмотра картинки-->
     <article class="popup popup_type_image">
       <figure class="popup__conteiner popup__conteiner_type_image">
@@ -102,7 +130,10 @@
         <img class="card__image" src="#" alt="Карточка места">
         <div class="card__content">
           <h2 class="card__title"></h2>
-          <button class="card__like" type="button" aria-label="Нравится"></button>
+          <div>
+            <button class="card__like" type="button" aria-label="Нравится"></button>
+            <p class="card__likesCounter"></p>
+          </div>
         </div>
       </article>
     </template>

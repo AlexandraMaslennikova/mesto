@@ -1,5 +1,3 @@
-
-
 export class FormValidator {
     constructor(config, formElement) {
         this._config = config;
@@ -9,7 +7,7 @@ export class FormValidator {
     }
 
     //показываем ошибку
-    _showError = (errorElement, inputElement,) => {
+    _showError = (errorElement, inputElement) => {
         errorElement.textContent = inputElement.validationMessage;
         inputElement.classList.add(this._config.inputErrorClass);
     };
