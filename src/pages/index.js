@@ -1,4 +1,4 @@
-import '../pages/index.css';
+//import '../pages/index.css';
 
 import { Api } from '../components/Api.js'
 import { Section } from '../components/Section.js';
@@ -70,16 +70,17 @@ const imagePopup = new PopupWithImage('.popup_type_image');
 const userInfoPopup = new PopupWithForm (
     { popupSelector:'.popup_type_edit-profile',
     handleFormSubmit: (info) => {
-    renderLoading(editPopup, true);
-    api.editUserInformation(info.name, info.about)
+    userInfoPopup.renderLoading(true);
+    api.editUserInformation(info.name, info.about) 
       .then((data) => {
         userInfo.setUserInfo(data);
+        userInfoPopup.close();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() =>
-        renderLoading(editPopup, false))
+      userInfoPopup.renderLoading(false));
      }
 });
 
@@ -87,16 +88,17 @@ const userInfoPopup = new PopupWithForm (
 const userAvatarPopup = new PopupWithForm (
   { popupSelector:'.popup_type_edit-avatar',
     handleFormSubmit: (info) => {
-    renderLoading(editAvatarPopup, true);
+    userAvatarPopup.renderLoading(true);
     api.changeAvatar(info.avatar)
       .then((data) => {
         userInfo.setUserInfo(data);
+        userAvatarPopup.close();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() =>
-        renderLoading(editAvatarPopup, false))
+      userAvatarPopup.renderLoading(false))
      }
 });
 
@@ -113,16 +115,6 @@ const enableValidation = () => {
 
 enableValidation(validationConfig);
 
-//улучшение UX на кнопке 'Сохранить'
-function renderLoading(popup, isLoading) {
-  const submitButton = popup.querySelector('.popup__submit');
-  if(isLoading) {
-    submitButton.textContent = 'Сохранение...'
-  }
-  else {
-    submitButton.textContent = 'Сохранить'
-  }
-};
 
 popupOpenBtn.addEventListener('click', () => {
   const getUserInfo = userInfo.getUserInfo();
@@ -131,13 +123,15 @@ popupOpenBtn.addEventListener('click', () => {
   jobInput.value = getUserInfo.about;
 
   userInfoPopup.open();
+
+  validationEditProfile.resetValidation(); //очищаем ошибки
 });
 
 //создаем карточки
 const generateCard = (data) => {
   const card = new Card({
     data: data,
-    userId: userId,
+    userId,
     handleCardClick,
     handleLikeClick: (cardId, isLiked) => {
       return api.cardLike(cardId, isLiked)
@@ -164,7 +158,6 @@ const popupConfirm = new PopupConfirm({
         popupConfirm.cardObject.deleteCard();
         popupConfirm.close();
         popupConfirm.cardObject = '';
-        console.log(cardId)
       })
       .catch(error => {
         console.log('Удаление карточки. ' + error);
@@ -176,17 +169,18 @@ const popupConfirm = new PopupConfirm({
 const newCardPopup = new PopupWithForm({
   popupSelector: '.popup_type_add-card',
   handleFormSubmit: (info) => {
-    renderLoading(popupAddCard, true);
+    newCardPopup.renderLoading(true);
     api.addNewCard(info.name, info.link)
       .then((data) => {
         const cardElement = generateCard(data);
         cardsList.addItem(cardElement);
+        newCardPopup.close();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() =>
-        renderLoading(popupAddCard, false))
+      newCardPopup.renderLoading(false));
 
   }
 });
@@ -198,14 +192,18 @@ userAvatarPopup.setEventListeners();
 popupConfirm.setEventListeners();
 
 
+
 //открытие попапа добавления новой карточки
 addCardBtn.addEventListener('click', () => {
   newCardPopup.open();
   validationNewCard.disabledButton(); //блокируем кнопку
+  validationNewCard.resetValidation(); //сбрасываем ошибки
 });
 
 //открытие попапа редактирования аватара
 editAvatarBtn.addEventListener('click', () => {
   userAvatarPopup.open();
-  validationNewCard.disabledButton(); //блокируем кнопку
+  validationEditAvatar.disabledButton(); //блокируем кнопку
+  validationEditAvatar.resetValidation();
 });
+
