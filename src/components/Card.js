@@ -56,13 +56,13 @@ export class Card {
       })
   }
 
-  userLikes(card) {
+  userLikes() {
     if (this._likes.some(person => person._id === this._userId)) {
       this._likeBtn.classList.add('card__like_color_black');
     }
   }
 
-  updateLikes(card) {
+  updateLikes() {
     this._likesCounter.textContent = this._likes.length;
   }
 
