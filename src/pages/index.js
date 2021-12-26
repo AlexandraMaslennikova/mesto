@@ -14,17 +14,14 @@ import {
   nameEditProfile,
   jobEditProfile,
   addCardForm,
-  editPopup,
   nameInput,
   jobInput,
   popupOpenBtn,
   addCardBtn,
   editProfileForm,
   avatarEditProfile,
-  editAvatarPopup,
   editAvatarForm,
   editAvatarBtn,
-  popupAddCard
 } from '../utils/constants.js';
 
 
@@ -35,7 +32,6 @@ const api = new Api({
     'content-Type': 'application/json'
   }
 }); 
-
 
 let userId = null;
 const userInfo = new UserInfo(nameEditProfile, jobEditProfile, avatarEditProfile);
@@ -133,20 +129,30 @@ const generateCard = (data) => {
     data: data,
     userId,
     handleCardClick,
-    handleLikeClick: (cardId, isLiked) => {
-      return api.cardLike(cardId, isLiked)
-    },
-    deleteIconClick: (cardObject) => {
-      popupConfirm.cardObject = cardObject;
-      popupConfirm.open();
-    }},
-    '.card-template');
-
+    handleLikeClick: (data) => {
+      if(card.isLiked()) {
+        api.deleteLike(data._cardId)
+        .then(dataLikes => {
+          card.updateLikes(dataLikes.likes)
+        })
+        .catch(err => console.log(`Ошибка удаления лайка: ${err}`))
+      } else {
+        api.putLike(data._cardId)
+        .then(dataLikes => {
+          card.updateLikes(dataLikes.likes)
+        })
+        .catch(err => console.log(`Ошибка установки лайка: ${err}`))
+      }},
+    deleteIconClick: (cardObject) => { 
+        popupConfirm.cardObject = cardObject; 
+        popupConfirm.open(); 
+      }, 
+    }, '.card-template');
   const cardElement = card.createCard();
-  card.userLikes(cardElement);
-  card.updateLikes(cardElement);
   return cardElement;
 };
+
+
 
 //попап удаления карточки
 const popupConfirm = new PopupConfirm({
@@ -181,7 +187,6 @@ const newCardPopup = new PopupWithForm({
       })
       .finally(() =>
       newCardPopup.renderLoading(false));
-
   }
 });
 
@@ -203,7 +208,7 @@ addCardBtn.addEventListener('click', () => {
 //открытие попапа редактирования аватара
 editAvatarBtn.addEventListener('click', () => {
   userAvatarPopup.open();
-  validationEditAvatar.disabledButton(); //блокируем кнопку
+  validationEditAvatar.disabledButton();
   validationEditAvatar.resetValidation();
 });
 

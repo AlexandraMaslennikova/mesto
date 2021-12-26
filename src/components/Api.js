@@ -55,10 +55,19 @@ export class Api {
       .then(this._checkResponse);
     }
 
-    //отображение количества лайков
-    cardLike(cardId, isLiked) {
+    //лайк карточки
+    putLike(cardId) {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-        method: isLiked ? "DELETE" : "PUT",
+        method: "PUT",
+        headers: this._headers
+    })
+    .then(this._checkResponse);
+    }
+
+    //удаление лайка
+    deleteLike(cardId) {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        method: "DELETE",
         headers: this._headers
     })
     .then(this._checkResponse);

@@ -10,6 +10,7 @@ export class Card {
     this.handleCardClick = handleCardClick;
     this.handleLikeClick = handleLikeClick;
     this.deleteIconClick = deleteIconClick;
+    
   };
   
   _getTemplate() {
@@ -32,38 +33,38 @@ export class Card {
     this._likeBtn = this._element.querySelector('.card__like');
     this._likesCounter = this._element.querySelector('.card__likesCounter');
     this._deleteBtn = this._element.querySelector('.card__delete');
-
+    
     const cardImage = this._element.querySelector('.card__image');
     
     cardImage.src = this._link;
     cardImage.alt = this._name;
 
+    this._likesCounter.textContent = this._likes.length;
+ 
     this._setEventListeners();
     this._deleteContirm();
+
+    this._userLikes();
 
     return this._element;
   };
 
-  _toggleLike() {
-    this.handleLikeClick(this._cardId, this.isLiked)
-      .then((data) => {
-        this._likeBtn.classList.toggle('card__like_color_black');
-        this.isLiked = !this.isLiked;
-        this._likesCounter.textContent = data.likes.length;
-      })
-      .catch((error) => {
-        console.log('Лайки.' + error);
-      })
-  }
-
-  userLikes() {
-    if (this._likes.some(person => person._id === this._userId)) {
+  _userLikes() {
+    if (this.isLiked()) {
       this._likeBtn.classList.add('card__like_color_black');
+    } else {
+      this._likeBtn.classList.remove('card__like_color_black');
     }
   }
 
-  updateLikes() {
-    this._likesCounter.textContent = this._likes.length;
+  updateLikes(dataLikes) {
+    this._likes = dataLikes;
+    this._likesCounter.textContent = dataLikes.length;
+    this._userLikes();
+  }
+
+  isLiked() {
+    return this._likes.some(person => person._id === this._userId);
   }
 
   deleteCard() {
@@ -81,8 +82,9 @@ export class Card {
   }
 
   _setEventListeners() {
+  
     this._likeBtn.addEventListener('click', () => {
-      this._toggleLike();
+      this.handleLikeClick(this);
     });
 
     this._element.querySelector('.card__delete').addEventListener('click', () => {
